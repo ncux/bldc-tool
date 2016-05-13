@@ -601,11 +601,15 @@ void BLDCInterface::onlineUpdateFirmware()
         emit msgCritical("Error download", tr("Could not download file. %1").arg(message));
     });
     connect(downloader, &Downloader::progress, [&](qint64 bytesReceived, qint64 bytesTotal) {
-        int progress_percent = 100 * bytesReceived / bytesTotal;
+        int progress_percent = 0;
+        // avoid division by zero
+        if(bytesTotal != 0)
+            progress_percent = 100 * bytesReceived / bytesTotal;
+
         update_firmwareProgress(progress_percent);
     });
 
-    downloader->setUrl("http://vesc.net.au/BLDC-TOOL/Firmware/VESC_default.bin");
+    downloader->setUrl(m_firmwareCurrentUrl);
     downloader->download();
     emit statusInfoChanged(tr("Downloading new firmware..."), true);
 }

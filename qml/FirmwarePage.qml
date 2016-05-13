@@ -3,6 +3,8 @@ import QtQuick.Controls 1.3
 import QtQuick.Controls.Styles 1.3
 import QtQuick.Dialogs 1.0
 
+import "components"
+
 BasicPage {
     id:rootFirmware
     showTopbar: true
@@ -75,6 +77,50 @@ BasicPage {
             id:rectProgress
             anchors.top: rectUploadFirmware.bottom
             anchors.topMargin: rectGap
+
+            Grid {
+                id:gridRadioButtons
+                columns: 3
+                columnSpacing: 4
+                width: parent.width - (2* rowLeftMargin)
+                anchors.left: parent.left
+                anchors.leftMargin: rowLeftMargin
+                anchors.right: parent.right
+                anchors.rightMargin: rowLeftMargin
+                anchors.top: rectProgress.bottom
+                anchors.topMargin: rowVerticalMargin
+
+
+                ExclusiveGroup{
+                    id: groupFirmwareUrl
+                }
+
+                BldcFirmwareRadioButton {
+                    id: firmwareRadioButton1
+                    firmwareUrl: "http://vesc.net.au/BLDC-TOOL/Firmware/VESC_default.bin"
+                    text: "Source 1"
+                    exclusiveGroup: groupFirmwareUrl
+                }
+
+                BldcFirmwareRadioButton {
+                    id: firmwareRadioButton2
+                    firmwareUrl: "http://vesc.net.au/BLDC-TOOL/Firmware/VESC_default.bin2"
+                    text: "Source 2"
+                    exclusiveGroup: groupFirmwareUrl
+                }
+
+                BldcFirmwareRadioButton {
+                    id: firmwareRadioButton3
+                    firmwareUrl: "http://vesc.net.au/BLDC-TOOL/Firmware/VESC_default.bin3"
+                    text: "Source 3"
+                    exclusiveGroup: groupFirmwareUrl
+                }
+
+                Component.onCompleted: {
+                    firmwareCurrentUrl = firmwareRadioButton1.firmwareUrl
+                }
+            }
+
             Grid{
                 id:gridProgress
                 columns: 2
@@ -84,7 +130,7 @@ BasicPage {
                 anchors.leftMargin: rowLeftMargin
                 anchors.right: parent.right
                 anchors.rightMargin: rowLeftMargin
-                anchors.top: rectProgress.bottom
+                anchors.top: gridRadioButtons.bottom
                 anchors.topMargin: rowVerticalMargin
 
                 ProgressBar{
@@ -96,7 +142,7 @@ BasicPage {
 
                 }
 
-                Button{
+                Button {
                     id: onlineUpdateBtn
                     text:"Update"
                     width: rectMain.width * 0.17
@@ -115,6 +161,8 @@ BasicPage {
                     }
                 }
             }
+
+
             Grid{
                 id:gridwarning
                 columns: 1

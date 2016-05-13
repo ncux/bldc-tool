@@ -58,6 +58,7 @@ class BLDCInterface : public QObject
     QML_READONLY_PROPERTY(QString, firmwareVersion)
     QML_READONLY_PROPERTY(int, firmwareProgress)
     QML_READONLY_PROPERTY(bool, firmwareUploadEnabled)
+    QML_WRITABLE_PROPERTY(QString, firmwareCurrentUrl)
     QML_READONLY_PROPERTY(bool, firmwareCancelEnabled)
     QML_READONLY_PROPERTY(bool, mcconfSlMinErpmEnabled      )
     QML_READONLY_PROPERTY(bool, mcconfSlMaxFbCurrEnabled    )
