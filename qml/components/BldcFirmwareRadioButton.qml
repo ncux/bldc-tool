@@ -2,14 +2,16 @@ import QtQuick 2.0
 import QtQuick.Controls 1.3
 import QtQuick.Controls.Styles 1.3
 
+//import bldc 1.0
+
 RadioButton {
-    property string firmwareUrl
+    property int firmwareSource
 
     id: firmwareRadioButton
 
-    checked: firmwareCurrentUrl === firmwareUrl
+    checked: firmwareCurrentSource === firmwareSource
     onClicked: {
-        firmwareCurrentUrl = firmwareUrl
+        firmwareCurrentSource = firmwareSource
     }
 
     style: RadioButtonStyle{

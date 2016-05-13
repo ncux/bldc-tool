@@ -3,6 +3,8 @@ import QtQuick.Controls 1.3
 import QtQuick.Controls.Styles 1.3
 import QtQuick.Dialogs 1.0
 
+import bldc 1.0
+
 import "components"
 
 BasicPage {
@@ -97,27 +99,23 @@ BasicPage {
 
                 BldcFirmwareRadioButton {
                     id: firmwareRadioButton1
-                    firmwareUrl: "http://vesc.net.au/BLDC-TOOL/Firmware/VESC_default.bin"
+                    firmwareSource: FirmwareSource.Source1
                     text: "Source 1"
                     exclusiveGroup: groupFirmwareUrl
                 }
 
                 BldcFirmwareRadioButton {
                     id: firmwareRadioButton2
-                    firmwareUrl: "http://vesc.net.au/BLDC-TOOL/Firmware/VESC_default.bin2"
+                    firmwareSource: FirmwareSource.Source2
                     text: "Source 2"
                     exclusiveGroup: groupFirmwareUrl
                 }
 
                 BldcFirmwareRadioButton {
                     id: firmwareRadioButton3
-                    firmwareUrl: "http://vesc.net.au/BLDC-TOOL/Firmware/VESC_default.bin3"
+                    firmwareSource: FirmwareSource.Source3
                     text: "Source 3"
                     exclusiveGroup: groupFirmwareUrl
-                }
-
-                Component.onCompleted: {
-                    firmwareCurrentUrl = firmwareRadioButton1.firmwareUrl
                 }
             }
 
