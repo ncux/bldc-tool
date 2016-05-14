@@ -199,7 +199,7 @@ Item{
                                     text: "0"
                                 }
                                 TextField{
-                                    id:textFieldSensDetλ
+                                    id:textFieldSensDetLambda
                                     width: mainItem.width*0.18
                                     text: "0"
                                 }
@@ -264,6 +264,50 @@ Item{
                                     text: "0"
                                 }
                             }
+                            Row{
+                                anchors.right: parent.right
+                                Button{
+                                    width:  mainItem.width <  mainItem.height ? mainItem.width*0.25: mainItem.width * 0.3
+                                    text:"Apply"
+                                    style: buttonStyle
+                                    onClicked: {
+                                        var r = parseFloat( textFieldSensDecR.text )
+                                        var l = parseFloat( textFieldSensDetL.text )
+                                        var lambda = parseFloat( textFieldSensDetLambda.text )
+
+                                        if (r < 1e-10) {
+                                            messageDialog.showCritical("Error", "R is 0. Please measure it first.")
+                                            return
+                                        }
+
+                                        if (l < 1e-10) {
+                                            messageDialog.showCritical("Error", "L is 0. Please measure it first.")
+                                            return
+                                        }
+
+                                        if (lambda < 1e-10) {
+                                            messageDialog.showCritical("Error", "\u03BB is 0. Please measure it first.")
+                                            return
+                                        }
+
+                                        textFieldSensDecR.text = r
+                                        textFieldSensDetL.text = l
+                                        textFieldSensDetLambda.text = lambda
+                                        buttonSensCalGain.clicked()
+
+                                        var kp = parseFloat(textFieldSensDetKp.text)
+                                        var ki = parseFloat(textFieldSensDetKi.text)
+
+                                        if (kp < 1e-10 || ki < 1e-10) {
+                                            messageDialog.showCritical( "Error", "Measure R and L, and calculate Kp and Ki first.")
+                                            return
+                                        }
+
+                                        mcconf.foc_current_kp = kp
+                                        mcconf.foc_current_ki = ki
+                                    }
+                                }
+                            }
                         }
                     }
                     GroupBox{
@@ -309,8 +353,8 @@ Item{
                                 }
 
                                 Button{
-                                    width:  mainItem.width <  mainItem.height ? mainItem.width*0.25: mainItem.width * 0.3
                                     id:buttonSensCalGain
+                                    width:  mainItem.width <  mainItem.height ? mainItem.width*0.25: mainItem.width * 0.3
                                     text:"Cal (Req: L)"
                                     // Layout.preferredWidth: parent.width * 0.2
                                     style: buttonStyle
@@ -483,6 +527,16 @@ Item{
                                 width: mainItem.width * 0.28
                                 style: buttonStyle
                                 anchors.right: parent.right
+                                onClicked: {
+                                    mcconf.foc_hall_table1 = textFieldDetTable1.text
+                                    mcconf.foc_hall_table2 = textFieldDetTable2.text
+                                    mcconf.foc_hall_table3 = textFieldDetTable3.text
+                                    mcconf.foc_hall_table4 = textFieldDetTable4.text
+                                    mcconf.foc_hall_table5 = textFieldDetTable5.text
+                                    mcconf.foc_hall_table6 = textFieldDetTable6.text
+                                    mcconf.foc_hall_table7 = textFieldDetTable7.text
+                                    mcconf.foc_hall_table8 = textFieldDetTable8.text
+                                }
                             }
                         }
                     }
@@ -541,6 +595,7 @@ Item{
                                     text: "15.0"
                                 }
                                 CheckBox{
+                                    id: encoderInvertedCheckBox
                                     text: "Invert Encoder"
                                 }
 
@@ -551,6 +606,11 @@ Item{
                                 width: mainItem.width * 0.27
                                 style: buttonStyle
                                 anchors.right: parent.right
+                                onClicked: {
+                                    mcconf.foc_encoder_offset = textFieldEncOfs.text
+                                    mcconf.foc_encoder_ratio = textFieldEncRat.text
+                                    mcconf.foc_encoder_inverted = encoderInvertedCheckBox.checked
+                                }
                             }
                         }
                     }
